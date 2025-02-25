@@ -1,6 +1,6 @@
 
 
-# **OSV Vulnarbilities Data Engineering Project**
+# **OSV Vulnerabilities Data Engineering Project**
 
 This project implements a cloud-based **Data Lake Architecture** for storing and analyzing **Open Source Vulnerabilities (OSV) data**. The system enables efficient querying and analysis of vulnerability data across different package ecosystems, leveraging **Apache Airflow, Delta Lake, Apache Spark, and Azure Synapse Analytics**.
 
