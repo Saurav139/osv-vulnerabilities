@@ -244,14 +244,14 @@ To enable efficient querying, data is **partitioned by the following columns**:
 | `ecosystem`         | Groups vulnerabilities by package type (`PyPI`, `npm`, `Go`). |
 | `year`              | Allows filtering vulnerabilities by the year they were published. |
 
-##  ✅ Requirement 2.3: Time travel and rollback**
+##  ✅ Requirement 2.3: Time travel and rollback
 🔹 **Implemented:**
 
 Time travel and rollback capabilities allow querying historical versions of the data and restoring previous states in case of data corruption or errors. Delta Lake provides built-in **versioning** and **time travel**, making it an ideal solution for managing Open Source Vulnerabilities (OSV) data.
 
 ---
 
-## ** Why Use Time Travel & Rollback?**
+## Why Use Time Travel & Rollback?
 Delta Lake maintains a **transaction log** (`_delta_log` directory) that keeps track of all changes. This enables:
 - **Historical analysis**: Query past snapshots of the data.
 - **Auditing & debugging**: Verify changes over time.
