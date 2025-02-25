@@ -43,6 +43,7 @@ with DAG(
         python_callable=download_task,
         provide_context=True
     )
+```
 ## ✅ Requirement 2: Schema Validation of Incoming Data  
 🔹 **Implemented:** The JSON files are validated against a schema before processing.  
 🔹 **Required Fields:**  
@@ -65,6 +66,7 @@ def validate_json_file(file_path):
         return True, "Valid"
     except Exception as e:
         return False, str(e)
+```
 ## ✅ Requirement 3: Handling Failures & Retries  
 🔹 **Implemented:** The DAG **automatically retries failed tasks** to handle temporary issues.  
 🔹 **Retry Mechanisms:**  
@@ -79,7 +81,7 @@ default_args = {
     'retries': 3,  # Retries failed tasks 3 times
     'retry_delay': timedelta(seconds=5),
 }
-
+```
 # ✅ Requirement 4: Audit Logs for Ingestion Activities  
 
 🔹 **Implemented:** Every step in the DAG logs key activities to **track progress, debug failures, and maintain audit trails**.  
@@ -97,7 +99,7 @@ custom_logger.info(f"Extracted {local_file} to {extract_dir}")
 custom_logger.error(f"Failed to extract {local_file}: {e}")
 custom_logger.info(f"Converted {json_path} to {parquet_path}")
 custom_logger.error(f"Failed to convert {json_path} to Parquet: {e}")
-
+```
 # ✅ Requirement 5: Incremental Processing (Avoiding Redundant Work)  
 
 ## 🔹 Overview  
@@ -127,6 +129,42 @@ def save_processed_files(processed_files):
     """Save processed file hashes for future DAG runs."""
     with open(PROCESSED_FILES_TRACKER, "w") as f:
         json.dump(processed_files, f, indent=4)
+```
+# ✅ Requirement 6: Batch Upload & Performance Optimization  
+
+## 🔹 Overview  
+To optimize performance, the DAG **uses batch uploads** instead of uploading files individually.  
+- **Only new/modified files** are uploaded.  
+- **Batch processing reduces API calls**, improving efficiency.  
+- **Parquet files are partitioned** by **year and month** for fast querying.  
+
+---
+
+## 📌 **Code Implementation**  
+
+### **1️⃣ Batch Uploading to Azure Blob Storage**  
+Instead of uploading files one by one, the DAG **uploads all Parquet files at once** using Azure CLI.
+
+📌 **Code Reference:** [`osv_ingestion_base.py`](dags/osv_ingestion_base.py)  
+```python
+def upload_parquet_to_azure(source_folder, container_name, connection_string):
+    """Batch upload all Parquet files to Azure Storage."""
+    cmd = [
+        "az", "storage", "blob", "upload-batch",
+        "--destination", container_name,
+        "--source", source_folder,
+        "--connection-string", connection_string
+    ]
+    custom_logger.info(f"Executing command: {' '.join(cmd)}")
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+        custom_logger.info(f"Batch upload output: {result.stdout}")
+        return True
+    except subprocess.CalledProcessError as e:
+        custom_logger.error(f"Batch upload failed: {e.stderr}")
+        return False
+```
+
 
 
 
