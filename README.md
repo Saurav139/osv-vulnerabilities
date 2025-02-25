@@ -271,8 +271,8 @@ df_old.show()
 🔹 **Implemented:**
 Delta Lake does not support direct indexing, but performance is improved by:
 
-- **Repartitioning by ecosystem (to group related records).
-- **Sorting data within partitions (to simulate Z-Ordering).
+- Repartitioning by ecosystem (to group related records).
+- Sorting data within partitions (to simulate Z-Ordering).
   ```python
     df = df.repartition("ecosystem").sortWithinPartitions("ecosystem", "year")
     ```
@@ -319,9 +319,9 @@ Check the ingested data in delta lake to ensure that they meet quality standards
 
 ##  ✅ Requirement 3.2: Derived tables
 🔹 **Implemented:**
-- **Generate precomputed tables for common query patterns.
-- **Reduce query execution time by storing filtered and indexed data.
-- **Improve analytical insights using structured vulnerability data.
+- **Generate precomputed tables for common query patterns.**
+- **Reduce query execution time by storing filtered and indexed data.**
+- **Improve analytical insights using structured vulnerability data.**
 
 ### **Derived Tables & Use Cases**
 | Derived Table Name           | Purpose                                    | Query Example |
