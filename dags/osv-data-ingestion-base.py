@@ -319,7 +319,7 @@ default_args = {
 with DAG(
     'osv_data_ingestion',
     default_args=default_args,
-    schedule_interval=None,  # Manual trigger only
+    schedule_interval=@daily, 
     catchup=False,
 ) as dag:
     
