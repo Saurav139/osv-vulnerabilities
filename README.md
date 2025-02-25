@@ -314,7 +314,7 @@ Check the ingested data in delta lake to ensure that they meet quality standards
 - **Duplicate check**:  Identifies duplicate entries based on unique identifiers (id, summary, modified).
 - **Future dates**: Check for incorrect dates
 - **Cardinality check**: Look at total records and unique records in certain fileds
-  ![Data Quality monitoring](screenshots/req3.1png)
+  ![Data Quality monitoring](screenshots/req3.1.png)
 
 
 ##  ✅ Requirement 3.2: Derived tables
@@ -330,7 +330,7 @@ Check the ingested data in delta lake to ensure that they meet quality standards
 | **vulnerabilities_by_ecosystem** | Count vulnerabilities per ecosystem. | `SELECT * FROM vulnerabilities_by_ecosystem WHERE ecosystem = 'PyPI';` |
 | **fixed_versions** | Retrieve fixed versions of vulnerabilities. | `SELECT * FROM fixed_versions WHERE id = 'CVE-2025-24371';` |
 
-![Derived tables](screenshots/req3.2png)
+![Derived tables](screenshots/req3.2.png)
 
 ##  ✅ Requirement 3.3: Performance Optimization
 🔹 **Implemented:**
