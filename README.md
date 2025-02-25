@@ -174,6 +174,94 @@ def upload_parquet_to_azure(source_folder, container_name, connection_string):
 ```
 ![Azure Stoarge Container with parquet files](screenshots/req1.6.png)
 
+# **OSV Vulnerabilities Data Lake Architecture (Part 2)**
+
+## **Overview**
+This section of the project focuses on designing and implementing a **Data Lake architecture** for efficient storage, querying, and governance of Open Source Vulnerabilities (OSV) data. The architecture is built on **Azure Data Lake Storage Gen2** with **Delta Lake** to support ACID transactions, time travel, and optimized query performance. Using **Azure Synapse Analytics**
+for running all the pyspark quries.
+
+---
+
+## ** ✅ Requirement 2.1: Storage Format*
+**Delta Lake** is used as the storage format due to its benefits:
+- **ACID transactions** (ensuring data integrity).
+- **Schema enforcement & evolution** (avoiding corrupt data).
+- **Time travel & rollback support** (query past versions).
+- **Optimized queries** (via partitioning & sorting).
+
+### **Implementation**
+```python
+df.write.format("delta") \
+    .mode("overwrite") \
+    .partitionBy("ecosystem", "year") \
+    .save(delta_path)
+```
+
+## ** ✅ Requirement 2.2: Partition Strategy*
+Partitioning organizes the data into **logical divisions**, reducing **query scan time** and **improving performance**.
+
+### **🔹 Benefits of Partitioning:**
+- **Faster queries**: Queries scan only relevant partitions instead of the entire dataset.
+- **Efficient storage**: Reduces unnecessary reads and improves storage efficiency.
+- **Cost optimization**: Minimizes compute costs for querying large datasets.
+
+To enable efficient querying, data is **partitioned by the following columns**:
+
+| **Partition Column** | **Reason for Partitioning** |
+|----------------------|---------------------------|
+| `ecosystem`         | Groups vulnerabilities by package type (`PyPI`, `npm`, `Go`). |
+| `year`              | Allows filtering vulnerabilities by the year they were published. |
+
+## ** ✅ Requirement 2.3: Time travel and rollback*
+
+Time travel and rollback capabilities allow querying historical versions of the data and restoring previous states in case of data corruption or errors. Delta Lake provides built-in **versioning** and **time travel**, making it an ideal solution for managing Open Source Vulnerabilities (OSV) data.
+
+---
+
+## **📌 Why Use Time Travel & Rollback?**
+Delta Lake maintains a **transaction log** (`_delta_log` directory) that keeps track of all changes. This enables:
+- **Historical analysis**: Query past snapshots of the data.
+- **Auditing & debugging**: Verify changes over time.
+- **Accidental overwrite recovery**: Restore previous versions of the data.
+- **Data consistency**: Ensure correct state at any given point.
+
+
+```python
+df_old = spark.read.format("delta") \
+    .option("versionAsOf", 2) \
+    .load(delta_path)
+
+df_old.show()
+```
+## ** ✅ Requirement 2.4: Indexing strategy*
+Delta Lake does not support direct indexing, but performance is improved by:
+
+- **Repartitioning by ecosystem (to group related records).
+- **Sorting data within partitions (to simulate Z-Ordering).
+  ```python
+    df = df.repartition("ecosystem").sortWithinPartitions("ecosystem", "year")
+    ```
+
+## ** ✅ Requirement 2.5: Data Governance and Access controls**
+
+
+This is implemented by Azure RBAC (Role-Based Access Control) to indivduals or to managed resources such as Azure Synapse Analytics.
+
+## ** ✅ Requirement 2.6: Vaccum and Retention Policies**
+
+Delta Lake retains historical versions of data, which can increase storage costs. To optimize space, old data is deleted using VACUUM.
+
+```python
+from delta.tables import DeltaTable
+
+deltaTable = DeltaTable.forPath(spark, delta_path)
+deltaTable.vacuum(75)  # Keep only the last 75 days of history
+```
+
+
+
+
+
 
 
 
