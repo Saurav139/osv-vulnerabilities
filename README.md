@@ -1,4 +1,48 @@
-# osv-vulnerabilities
+
+
+# **OSV Vulnarbilities Data Engineering Project**
+
+This project implements a cloud-based **Data Lake Architecture** for storing and analyzing **Open Source Vulnerabilities (OSV) data**. The system enables efficient querying and analysis of vulnerability data across different package ecosystems, leveraging **Apache Airflow, Delta Lake, Apache Spark, and Azure Synapse Analytics**.
+
+---
+
+## **📌 Architecture Overview**
+The architecture consists of **three main components**:
+
+### **1️⃣ Data Ingestion**
+- **Automated data extraction** from OSV public API.
+- **Apache Airflow DAGs** fetch updates daily.
+- **Schema validation** ensures the integrity of incoming JSON data.
+- **Parquet conversion** before storing data in the Delta Lake.
+
+### **2️⃣ Data Lake Architecture**
+- **Storage**: Azure Data Lake Storage Gen2 with **Delta Lake format**.
+- **Partitioning**: Data is **partitioned by `ecosystem` and `date`**.
+- **Optimization**: Sorting within partitions ensures efficient queries.
+- **Indexing**: Sorting-based indexing strategy improves read performance.
+- **Time Travel & Rollback**: Enables querying historical data.
+
+### **3️⃣ Data Processing**
+- **Apache Spark jobs** create **derived tables** for efficient querying.
+- **Data quality monitoring** is implemented to track missing values.
+- **Common Query Patterns Supported**:
+  - Get vulnerabilities by package.
+  - Get vulnerabilities by ecosystem.
+  - Retrieve fixed versions of vulnerabilities.
+- **Azure Synapse Analytics** is used to run analytical queries.
+
+---
+
+## **🖼 Architecture Diagram**
+![Architecture Diagram](./Architecture_diagram.png)
+
+This diagram illustrates how data flows through the system:
+- **Data Ingestion**: OSV data is fetched via **Airflow DAGs** where it downloads zip files of different ecosystems, extracts them and converts them into **parquet files** so that they can later be sstored easily in delta format.
+- **Data Lake**: Data is stored in **Azure Data Lake Gen2** with **Delta Lake** format.
+- **Data Processing**: Apache Spark processes data, **validates quality, creates derived tables, and supports time travel**.
+- **Querying & Analytics**: **Azure Synapse Analytics** enables efficient queries for vulnerability tracking.
+
+---
 
 # OSV Data Lake - Part 1: Data Ingestion  
 ### Automated Vulnerability Data Pipeline Using Apache Airflow & Azure  
