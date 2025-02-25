@@ -1,7 +1,7 @@
 resource "azurerm_linux_virtual_machine" "osv_vm" {
   name                = "osv-airflow-vm"
-  resource_group_name = azurerm_resource_group.osv.name
-  location            = azurerm_resource_group.osv.location
+  resource_group_name = var.resource_group_name
+  location            = var.location
   size                = "Standard_B2s"
   admin_username      = "osvadmin"
 
@@ -29,7 +29,7 @@ resource "azurerm_linux_virtual_machine" "osv_vm" {
       type        = "ssh"
       user        = "osvadmin"
       private_key = file("~/.ssh/id_rsa")
-      host        = azurerm_public_ip.osv_ip.ip_address
+      host        = azurerm_linux_virtual_machine.osv_vm.public_ip_address
     }
 
     inline = [
@@ -40,6 +40,8 @@ resource "azurerm_linux_virtual_machine" "osv_vm" {
       "pip install apache-airflow",
       "mkdir -p ~/airflow/dags",
       "mv /mnt/data/osv-data-ingestion-base.py ~/airflow/dags/",
+      "mv /mnt/data/requirements.txt ~/airflow/",
+      "pip install -r ~/airflow/requirements.txt",  
       "airflow db init",
       "airflow webserver -p 8080 &",
       "airflow scheduler &"
