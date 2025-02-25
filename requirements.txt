@@ -1,0 +1,15 @@
+# Airflow
+apache-airflow==2.10.5
+
+# Data Processing
+pandas==2.2.3
+pyarrow==19.0.1  # Required for Parquet conversion
+
+# Networking & Requests
+requests==2.28.2
+
+# Cloud Storage (Azure)
+azure-storage-blob==12.17.0
+
+# JSON Validation
+jsonschema==4.23.0
