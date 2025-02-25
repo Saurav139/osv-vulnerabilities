@@ -6,6 +6,13 @@ This project implements a cloud-based **Data Lake Architecture** for storing and
 
 ---
 
+## **📖 Table of Contents**
+1. [Architecture Overview](#architecture-overview)
+2. [Data Ingestion Pipeline](#osv-data-ingestion-part-1)
+3. [Data Lake Architecture](#osv-data-lake-part-2)
+4. [Data Processing & Querying](#osv-data-processing-part-3)
+5. [Terraform Deployment Guide](#osv-vulnerabilities-deployment-guide)
+
 ## **Architecture Overview**
 The architecture consists of **three main components**:
 
