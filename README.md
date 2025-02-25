@@ -47,8 +47,6 @@ This diagram illustrates how data flows through the system:
 # OSV Data Lake - Part 1: Data Ingestion  
 ### Automated Vulnerability Data Pipeline Using Apache Airflow & Azure  
 
-This repository contains an **Apache Airflow-based data pipeline** to fetch, validate, process, and store **Open Source Vulnerability (OSV)** data efficiently.  
-
 ## 🔹 Overview  
 - **Automated daily ingestion** of OSV vulnerability data  
 - **Schema validation** to ensure data quality  
@@ -297,8 +295,64 @@ deltaTable = DeltaTable.forPath(spark, delta_path)
 deltaTable.vacuum(75)  # Keep only the last 75 days of history
 ```
 
+# OSV Data Lake - Part 3: Data Processing  
+### Automated Vulnerability Data Pipeline Using Apache Airflow & Azure  
 
 
+## 🔹 Overview  
+This section describes how vulnerability data from the OSV dataset is processed using Apache Spark. The processing includes:
+
+- **Data Quality Monitoring
+- **Creating Derived Tables for Common Queries
+- **Efficient Processing Strategies
+- **Resource Optimization
+- **Error Handling and Recovery
+- **Performance Monitoring
+
+##  ✅ Requirement 3.1: Data Quality Monitoring
+🔹 **Implemented:**
+Check the ingested data in delta lake to ensure that they meet quality standards
+- **Duplicate check**:  Identifies duplicate entries based on unique identifiers (id, summary, modified).
+- **Future dates**: Check for incorrect dates
+- **Cardinality check**: Look at total records and unique records in certain fileds
+  ![Data Quality monitoring](screenshots/req3.1png)
+
+
+##  ✅ Requirement 3.2: Derived tables
+🔹 **Implemented:**
+- **Generate precomputed tables for common query patterns.
+- **Reduce query execution time by storing filtered and indexed data.
+- **Improve analytical insights using structured vulnerability data.
+
+### **Derived Tables & Use Cases**
+| Derived Table Name           | Purpose                                    | Query Example |
+|------------------------------|--------------------------------------------|--------------|
+| **vulnerabilities_by_package** | Get all vulnerabilities affecting a package. | `SELECT * FROM vulnerabilities_by_package WHERE name = 'tensorflow-cpu';` |
+| **vulnerabilities_by_ecosystem** | Count vulnerabilities per ecosystem. | `SELECT * FROM vulnerabilities_by_ecosystem WHERE ecosystem = 'PyPI';` |
+| **fixed_versions** | Retrieve fixed versions of vulnerabilities. | `SELECT * FROM fixed_versions WHERE id = 'CVE-2025-24371';` |
+
+![Derived tables](screenshots/req3.2png)
+
+##  ✅ Requirement 3.3: Performance Optimization
+🔹 **Implemented:**
+To optimize performance, the following strategies are applied:
+
+- **Partitioning Data**
+Partitioning is done by ecosystem and year for efficient querying.
+- **Sorting Within Partitions**
+Sorting is done using sortWithinPartitions() on date for faster lookup.
+These have already been implemented in part 2 - therefore they don't need to be implemented again.
+
+##  ✅ Requirement 3.4: Error handling and Performance Monitoring
+🔹 **Implemented:**
+
+- ** Added try and except blocks.
+- ** Checked the time taken to create derived tables and perfoem quality checks
+
+  
+
+
+# **OSV Vulnerabilities Deployment Guide**
 
 
 
