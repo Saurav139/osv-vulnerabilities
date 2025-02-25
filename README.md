@@ -34,7 +34,7 @@ The architecture consists of **three main components**:
 ---
 
 ## **🖼 Architecture Diagram**
-![Architecture Diagram](./Architecture_diagram.png)
+![Architecture Diagram](screenshots/Architecture_diagram.png)
 
 This diagram illustrates how data flows through the system:
 - **Data Ingestion**: OSV data is fetched via **Airflow DAGs** where it downloads zip files of different ecosystems, extracts them and converts them into **parquet files** so that they can later be sstored easily in delta format.
