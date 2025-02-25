@@ -6,7 +6,7 @@ This project implements a cloud-based **Data Lake Architecture** for storing and
 
 ---
 
-## **📌 Architecture Overview**
+## ** Architecture Overview**
 The architecture consists of **three main components**:
 
 ### **1️⃣ Data Ingestion**
@@ -352,6 +352,76 @@ These have already been implemented in part 2 - therefore they don't need to be 
 
 
 # **OSV Vulnerabilities Deployment Guide**
+This guide will walk you through deploying a full ETL pipeline on Azure using Terraform, Apache Airflow, and Azure Synapse. The pipeline will:
+- Ingest vulnerability data from multiple sources
+- Convert JSON to Parquet
+- Store data in Azure Blob Storage
+- Load and analyze data in Azure Synapse Analytics
+
+## Step 1: Create Terraform Folder and Files
+
+### mkdir -p terraform
+### cd terraform
+### touch main.tf storage.tf vm.tf synapse.tf outputs.tf variables.tf
+
+ ## Step 2: Define the Terraform scripts
+
+# **Breakdown of Terraform Scripts**
+
+| **File Name**  | **Purpose** |
+|---------------|------------|
+| **`main.tf`** | The entry point for Terraform execution. Calls other `.tf` scripts and defines Terraform providers. |
+| **`storage.tf`** | Defines **Azure Storage Account** and **Blob Storage Container**. |
+| **`vm.tf`** | Provisions the **Azure Virtual Machine** and installs **Airflow**, moving DAGs inside. |
+| **`synapse.tf`** | Creates **Azure Synapse Analytics**, including **Spark Pool** for running Jupyter Notebooks. |
+| **`outputs.tf`** | Defines Terraform **output variables**, like **Storage Account Name, VM IP, and Synapse Workspace Name**. |
+| **`variables.tf`** | Stores **configurable values** (like **region, VM size, and admin credentials**) for reusability. |
+
+
+ ## Step 3: Deploy Azure Resources with Terraform
+
+### terraform init
+### terraform apply -auto-approve
+
+## These steps will -
+- Create Azure storage
+- Create Azure VM
+- Install Airflow on the VM
+- Move DAGs to the Airflow folder
+- Start Airflow webserver and scheduler
+- Deploy Azure Synapse Analytics and Spark Pool
+## Step 4: 
+Once the terraform is completed, SSH into VM
+### ssh osvadmin@<vm_public_ip>
+Check if the airflow is running
+### airflow dags list
+
+## Step 5:
+Edit the config file 
+### nano ~/airflow/dags/config.json
+
+### Please add your azure storage configuration - connection string and container name
+
+## Step 6:
+
+Trigger the airflow DAG
+
+### airflow dags trigger osv_data_ingestion
+
+## Step 7:
+Check if the container is created and the data is ingested using UI 
+
+## Step 8:
+
+- Use the **Azure Synapse Studio** and run **osv-data-lake.ipynb** and  **osv-data-processing.ipynb**
+- ** In these scripts please find paths to delta table and parquet files path and edit the paths - Example path: abfss://CONTAINER-NAME@STORAGE-CONTAINER-NAME.dfs.core.windows.net/delta-table/**
+  
+
+
+
+
+
+
 
 
 
