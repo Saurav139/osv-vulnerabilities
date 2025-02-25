@@ -6,7 +6,7 @@ This project implements a cloud-based **Data Lake Architecture** for storing and
 
 ---
 
-## ** Architecture Overview**
+## **Architecture Overview**
 The architecture consists of **three main components**:
 
 ### **1️⃣ Data Ingestion**
@@ -44,7 +44,7 @@ This diagram illustrates how data flows through the system:
 
 ---
 
-# OSV Data Lake - Part 1: Data Ingestion  
+# **OSV Data Lake - Part 1: Data Ingestion**  
 ### Automated Vulnerability Data Pipeline Using Apache Airflow & Azure  
 
 ## 🔹 Overview  
