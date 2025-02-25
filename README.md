@@ -17,7 +17,7 @@ This repository contains an **Apache Airflow-based data pipeline** to fetch, val
 
 ## ✅ Requirement 1.1: Fetch Daily Updates from OSV's Public Dataset  
 🔹 **Implemented:** The Airflow DAG runs **daily** (`@daily`) and fetches the latest OSV vulnerability data.  
-🔹 **Code Implementation:**  
+
 - The **`download_task`** fetches OSV data from the official OSV dataset.  
 - Uses **retry logic** to handle failures in case of temporary network issues.  
 - OSV data sources [Go, Rocky Linux, NPM and PyPI] are **defined in `config.json`**, making it **easily configurable**.  
@@ -98,7 +98,7 @@ custom_logger.error(f"Failed to convert {json_path} to Parquet: {e}")
 
 # ✅ Requirement 1.5: Incremental Processing (Avoiding Redundant Work)  
 
-## 🔹 Overview  
+🔹 **Implemented:**
 The OSV Data Lake ingestion pipeline ensures that **only new or modified files are processed** instead of reprocessing all files daily. This significantly improves **performance** and **reduces redundant computation**.
 
 ## 🔹 How Incremental Processing Works  
@@ -131,7 +131,7 @@ def save_processed_files(processed_files):
 ```
 # ✅ Requirement 1.6: Batch Upload & Performance Optimization  
 
-## 🔹 Overview  
+🔹 **Implemented:**
 To optimize performance, the DAG **uses batch uploads** instead of uploading files individually.  
 - **Only new/modified files** are uploaded.  
 - **Batch processing reduces API calls**, improving efficiency.  
@@ -172,13 +172,13 @@ for running all the pyspark quries.
 ---
 
 ## ** ✅ Requirement 2.1: Storage Format**
+🔹 **Implemented:**
 **Delta Lake** is used as the storage format due to its benefits:
 - **ACID transactions** (ensuring data integrity).
 - **Schema enforcement & evolution** (avoiding corrupt data).
 - **Time travel & rollback support** (query past versions).
 - **Optimized queries** (via partitioning & sorting).
 
-### **Implementation**
 ```python
 df.write.format("delta") \
     .mode("overwrite") \
@@ -187,6 +187,7 @@ df.write.format("delta") \
 ```
 
 ## ** ✅ Requirement 2.2: Partition Strategy**
+🔹 **Implemented:**
 Partitioning organizes the data into **logical divisions**, reducing **query scan time** and **improving performance**.
 
 ### **🔹 Benefits of Partitioning:**
@@ -202,6 +203,7 @@ To enable efficient querying, data is **partitioned by the following columns**:
 | `year`              | Allows filtering vulnerabilities by the year they were published. |
 
 ## ** ✅ Requirement 2.3: Time travel and rollback**
+🔹 **Implemented:**
 
 Time travel and rollback capabilities allow querying historical versions of the data and restoring previous states in case of data corruption or errors. Delta Lake provides built-in **versioning** and **time travel**, making it an ideal solution for managing Open Source Vulnerabilities (OSV) data.
 
@@ -223,6 +225,8 @@ df_old = spark.read.format("delta") \
 df_old.show()
 ```
 ## ** ✅ Requirement 2.4: Indexing strategy**
+
+🔹 **Implemented:**
 Delta Lake does not support direct indexing, but performance is improved by:
 
 - **Repartitioning by ecosystem (to group related records).
@@ -233,10 +237,11 @@ Delta Lake does not support direct indexing, but performance is improved by:
 
 ## ** ✅ Requirement 2.5: Data Governance and Access controls**
 
-
+🔹 **Implemented:**
 This is implemented by Azure RBAC (Role-Based Access Control) to indivduals or to managed resources such as Azure Synapse Analytics.
 
 ## ** ✅ Requirement 2.6: Vaccum and Retention Policies**
+🔹 **Implemented:**
 
 Delta Lake retains historical versions of data, which can increase storage costs. To optimize space, old data is deleted using VACUUM.
 
@@ -246,6 +251,7 @@ from delta.tables import DeltaTable
 deltaTable = DeltaTable.forPath(spark, delta_path)
 deltaTable.vacuum(75)  # Keep only the last 75 days of history
 ```
+
 
 
 
