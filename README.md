@@ -118,7 +118,7 @@ default_args = {
     'retry_delay': timedelta(seconds=5),
 }
 ```
-# ✅ Requirement 1.4: Audit Logs for Ingestion Activities  
+## ✅ Requirement 1.4: Audit Logs for Ingestion Activities  
 
 🔹 **Implemented:** Every step in the DAG logs key activities to **track progress, debug failures, and maintain audit trails**.  
 🔹 **Log Outputs Include:**  
@@ -138,7 +138,7 @@ custom_logger.error(f"Failed to convert {json_path} to Parquet: {e}")
 ```
 ![Airflow Success Logs](screenshots/req1.4.png)
 
-# ✅ Requirement 1.5: Incremental Processing (Avoiding Redundant Work)  
+## ✅ Requirement 1.5: Incremental Processing (Avoiding Redundant Work)  
 
 🔹 **Implemented:**
 The OSV Data Lake ingestion pipeline ensures that **only new or modified files are processed** instead of reprocessing all files daily. This significantly improves **performance** and **reduces redundant computation**.
@@ -171,7 +171,7 @@ def save_processed_files(processed_files):
     with open(PROCESSED_FILES_TRACKER, "w") as f:
         json.dump(processed_files, f, indent=4)
 ```
-# ✅ Requirement 1.6: Batch Upload & Performance Optimization  
+## ✅ Requirement 1.6: Batch Upload & Performance Optimization  
 
 🔹 **Implemented:**
 To optimize performance, the DAG **uses batch uploads** instead of uploading files individually.  
