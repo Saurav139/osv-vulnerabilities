@@ -1,6 +1,6 @@
 # osv-vulnerabilities
 
-# 📜 OSV Data Lake - Part 1: Data Ingestion  
+# OSV Data Lake - Part 1: Data Ingestion  
 ### Automated Vulnerability Data Pipeline Using Apache Airflow & Azure  
 
 This repository contains an **Apache Airflow-based data pipeline** to fetch, validate, process, and store **Open Source Vulnerability (OSV)** data efficiently.  
@@ -171,7 +171,7 @@ for running all the pyspark quries.
 
 ---
 
-##  ✅ Requirement 2.1: Storage Format**
+##  ✅ Requirement 2.1: Storage Format
 🔹 **Implemented:**
 **Delta Lake** is used as the storage format due to its benefits:
 - **ACID transactions** (ensuring data integrity).
@@ -186,7 +186,7 @@ df.write.format("delta") \
     .save(delta_path)
 ```
 
-##  ✅ Requirement 2.2: Partition Strategy**
+##  ✅ Requirement 2.2: Partition Strategy
 🔹 **Implemented:**
 Partitioning organizes the data into **logical divisions**, reducing **query scan time** and **improving performance**.
 
@@ -209,7 +209,7 @@ Time travel and rollback capabilities allow querying historical versions of the 
 
 ---
 
-## **📌 Why Use Time Travel & Rollback?**
+## ** Why Use Time Travel & Rollback?**
 Delta Lake maintains a **transaction log** (`_delta_log` directory) that keeps track of all changes. This enables:
 - **Historical analysis**: Query past snapshots of the data.
 - **Auditing & debugging**: Verify changes over time.
@@ -224,7 +224,7 @@ df_old = spark.read.format("delta") \
 
 df_old.show()
 ```
-## ✅ Requirement 2.4: Indexing strategy**
+## ✅ Requirement 2.4: Indexing strategy
 
 🔹 **Implemented:**
 Delta Lake does not support direct indexing, but performance is improved by:
@@ -236,12 +236,12 @@ Delta Lake does not support direct indexing, but performance is improved by:
     ```
   ![Delta table with indexing](screenshots/req2.4.png)
 
-##  ✅ Requirement 2.5: Data Governance and Access controls**
+##  ✅ Requirement 2.5: Data Governance and Access controls
 
 🔹 **Implemented:**
 This is implemented by Azure RBAC (Role-Based Access Control) to indivduals or to managed resources such as Azure Synapse Analytics.
 
-##  ✅ Requirement 2.6: Vaccum and Retention Policies**
+##  ✅ Requirement 2.6: Vaccum and Retention Policies
 🔹 **Implemented:**
 
 Delta Lake retains historical versions of data, which can increase storage costs. To optimize space, old data is deleted using VACUUM.
