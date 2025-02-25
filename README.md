@@ -302,12 +302,11 @@ deltaTable.vacuum(75)  # Keep only the last 75 days of history
 ## 🔹 Overview  
 This section describes how vulnerability data from the OSV dataset is processed using Apache Spark. The processing includes:
 
-- **Data Quality Monitoring
-- **Creating Derived Tables for Common Queries
-- **Efficient Processing Strategies
-- **Resource Optimization
-- **Error Handling and Recovery
-- **Performance Monitoring
+- Data Quality Monitoring
+- Creating Derived Tables for Common Queries
+- Efficient Processing Strategies
+- Error Handling and Recovery
+- Performance Monitoring
 
 ##  ✅ Requirement 3.1: Data Quality Monitoring
 🔹 **Implemented:**
@@ -346,8 +345,8 @@ These have already been implemented in part 2 - therefore they don't need to be 
 ##  ✅ Requirement 3.4: Error handling and Performance Monitoring
 🔹 **Implemented:**
 
-- ** Added try and except blocks.
-- ** Checked the time taken to create derived tables and perfoem quality checks
+- Added try and except blocks.
+- Checked the time taken to create derived tables and perfoem quality checks
 
   
 
