@@ -393,7 +393,7 @@ This guide will walk you through deploying a full ETL pipeline on Azure using Te
 ## Step 4: 
 Once the terraform is completed, SSH into VM
 ### ssh osvadmin@<vm_public_ip>
-Check if the airflow is running
+Check if airflow is running
 ### airflow dags list
 
 ## Step 5:
@@ -409,7 +409,7 @@ Trigger the airflow DAG
 ### airflow dags trigger osv_data_ingestion
 
 ## Step 7:
-Check if the container is created and the data is ingested using UI 
+### Check if the container is created and the data is ingested using UI 
 
 ## Step 8:
 
