@@ -102,6 +102,8 @@ custom_logger.error(f"Failed to extract {local_file}: {e}")
 custom_logger.info(f"Converted {json_path} to {parquet_path}")
 custom_logger.error(f"Failed to convert {json_path} to Parquet: {e}")
 ```
+![Airflow Success Logs](screenshots/req1.4.png)
+
 # ✅ Requirement 1.5: Incremental Processing (Avoiding Redundant Work)  
 
 ## 🔹 Overview  
@@ -111,7 +113,10 @@ The OSV Data Lake ingestion pipeline ensures that **only new or modified files a
 1. **A SHA256 hash is computed** for each JSON file before processing.  
 2. If the **hash matches the last processed version**, the file is **skipped**.  
 3. If the file is **new or modified**, it is processed and stored in Azure.  
-4. The **hash is saved in `processed_files.json`**, ensuring future runs detect changes efficiently.  
+4. The **hash is saved in `processed_files.json`**, ensuring future runs detect changes efficiently.
+
+![Airflow Skip Logs](screenshots/req1.5.png)
+
 
 
 📌 **Code Reference:** [`osv_ingestion_base.py`](dags/osv_ingestion_base.py)  
@@ -164,8 +169,11 @@ def upload_parquet_to_azure(source_folder, container_name, connection_string):
         return True
     except subprocess.CalledProcessError as e:
         custom_logger.error(f"Batch upload failed: {e.stderr}")
+
         return False
 ```
+![Azure Stoarge Container with parquet files](screenshots/req1.6.png)
+
 
 
 
