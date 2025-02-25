@@ -67,6 +67,8 @@ def validate_json_file(file_path):
     except Exception as e:
         return False, str(e)
 ```
+![Airflow Retry Logs](screenshots/req1.2.png)
+
 ## ✅ Requirement 1.3: Handling Failures & Retries  
 🔹 **Implemented:** The DAG **automatically retries failed tasks** to handle temporary issues.  
 🔹 **Retry Mechanisms:**  
