@@ -387,6 +387,7 @@ This guide will walk you through deploying a full ETL pipeline on Azure using Te
 - Create Azure storage
 - Create Azure VM
 - Install Airflow on the VM
+- Install other requiremnts for the baseline script
 - Move DAGs to the Airflow folder
 - Start Airflow webserver and scheduler
 - Deploy Azure Synapse Analytics and Spark Pool
