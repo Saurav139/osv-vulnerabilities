@@ -9,7 +9,7 @@ This repository contains an **Apache Airflow-based data pipeline** to fetch, val
 - **Automated daily ingestion** of OSV vulnerability data  
 - **Schema validation** to ensure data quality  
 - **Incremental processing** (avoids redundant reprocessing)  
-- **Optimized storage using partitioned Parquet files**  
+- **Optimized storage using Parquet files**  
 - **Batch upload to Azure Blob Storage** for efficient querying  
 - **Logging & failure handling** with retry mechanisms  
 
@@ -23,12 +23,12 @@ This repository contains an **Apache Airflow-based data pipeline** to fetch, val
 
 # 🏗 How the Solution Meets the Requirements  
 
-## ✅ Requirement 1: Fetch Daily Updates from OSV's Public Dataset  
+## ✅ Requirement 1.1: Fetch Daily Updates from OSV's Public Dataset  
 🔹 **Implemented:** The Airflow DAG runs **daily** (`@daily`) and fetches the latest OSV vulnerability data.  
 🔹 **Code Implementation:**  
 - The **`download_task`** fetches OSV data from the official OSV dataset.  
 - Uses **retry logic** to handle failures in case of temporary network issues.  
-- OSV data sources are **defined in `config.json`**, making it **easily configurable**.  
+- OSV data sources [Go, Rocky Linux, NPM and PyPI] are **defined in `config.json`**, making it **easily configurable**.  
 
 📌 **Code Reference:** [`osv_ingestion_base.py`](dags/osv_ingestion_base.py)  
 ```python
@@ -44,7 +44,7 @@ with DAG(
         provide_context=True
     )
 ```
-## ✅ Requirement 2: Schema Validation of Incoming Data  
+## ✅ Requirement 1.2: Schema Validation of Incoming Data  
 🔹 **Implemented:** The JSON files are validated against a schema before processing.  
 🔹 **Required Fields:**  
 - `id` (Unique identifier)  
@@ -67,7 +67,7 @@ def validate_json_file(file_path):
     except Exception as e:
         return False, str(e)
 ```
-## ✅ Requirement 3: Handling Failures & Retries  
+## ✅ Requirement 1.3: Handling Failures & Retries  
 🔹 **Implemented:** The DAG **automatically retries failed tasks** to handle temporary issues.  
 🔹 **Retry Mechanisms:**  
 - **Download Task:** Retries 3 times with a 5-second delay between attempts.  
@@ -82,7 +82,7 @@ default_args = {
     'retry_delay': timedelta(seconds=5),
 }
 ```
-# ✅ Requirement 4: Audit Logs for Ingestion Activities  
+# ✅ Requirement 1.4: Audit Logs for Ingestion Activities  
 
 🔹 **Implemented:** Every step in the DAG logs key activities to **track progress, debug failures, and maintain audit trails**.  
 🔹 **Log Outputs Include:**  
@@ -100,7 +100,7 @@ custom_logger.error(f"Failed to extract {local_file}: {e}")
 custom_logger.info(f"Converted {json_path} to {parquet_path}")
 custom_logger.error(f"Failed to convert {json_path} to Parquet: {e}")
 ```
-# ✅ Requirement 5: Incremental Processing (Avoiding Redundant Work)  
+# ✅ Requirement 1.5: Incremental Processing (Avoiding Redundant Work)  
 
 ## 🔹 Overview  
 The OSV Data Lake ingestion pipeline ensures that **only new or modified files are processed** instead of reprocessing all files daily. This significantly improves **performance** and **reduces redundant computation**.
@@ -130,7 +130,7 @@ def save_processed_files(processed_files):
     with open(PROCESSED_FILES_TRACKER, "w") as f:
         json.dump(processed_files, f, indent=4)
 ```
-# ✅ Requirement 6: Batch Upload & Performance Optimization  
+# ✅ Requirement 1.6: Batch Upload & Performance Optimization  
 
 ## 🔹 Overview  
 To optimize performance, the DAG **uses batch uploads** instead of uploading files individually.  
