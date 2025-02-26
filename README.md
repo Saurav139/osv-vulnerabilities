@@ -304,7 +304,7 @@ deltaTable = DeltaTable.forPath(spark, delta_path)
 deltaTable.vacuum(75)  # Keep only the last 75 days of history
 ```
 
-# OSV Vulnerabilities- Part 3: Data Processing  
+# OSV Vulnerabilities - Part 3: Data Processing  
 ### Automated Vulnerability Data Pipeline Using Apache Airflow & Azure  
 
 
