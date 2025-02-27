@@ -6,6 +6,15 @@ This project implements a cloud-based **Data Lake Architecture** for storing and
 
 ---
 
+
+## **📖 Table of Contents**
+1. [Architecture Overview](#architecture-overview)
+2. [OSV Vulnerabilities - Part 1: Data Ingestion](#osv-vulnerabilities---part-1-data-ingestion)
+3. [OSV Vulnerabilities - Part 2: Data Lake Architecture](#osv-vulnerabilities---part-2-data-lake-architecture)
+4. [OSV Vulnerabilities - Part 3: Data Processing](#osv-vulnerabilities---part-3-data-processing)
+5. [Terraform Deployment Guide](#osv-vulnerabilities-deployment-guide)
+
+
 ## **Architecture Overview**
 The architecture consists of **three main components**:
 
@@ -44,7 +53,7 @@ This diagram illustrates how data flows through the system:
 
 ---
 
-# **OSV Data Lake - Part 1: Data Ingestion**  
+# **OSV Vulnerabilities - Part 1: Data Ingestion**  
 ### Automated Vulnerability Data Pipeline Using Apache Airflow & Azure  
 
 ## 🔹 Overview  
@@ -205,7 +214,7 @@ def upload_parquet_to_azure(source_folder, container_name, connection_string):
 ```
 ![Azure Stoarge Container with parquet files](screenshots/req1.6.png)
 
-# **OSV Vulnerabilities Data Lake Architecture (Part 2)**
+# **OSV Vulnerabilities - Part 2: Data Lake Architecture**
 
 ## **Overview**
 This section of the project focuses on designing and implementing a **Data Lake architecture** for efficient storage, querying, and governance of Open Source Vulnerabilities (OSV) data. The architecture is built on **Azure Data Lake Storage Gen2** with **Delta Lake** to support ACID transactions, time travel, and optimized query performance. Using **Azure Synapse Analytics**
@@ -295,7 +304,7 @@ deltaTable = DeltaTable.forPath(spark, delta_path)
 deltaTable.vacuum(75)  # Keep only the last 75 days of history
 ```
 
-# OSV Data Lake - Part 3: Data Processing  
+# OSV Vulnerabilities - Part 3: Data Processing  
 ### Automated Vulnerability Data Pipeline Using Apache Airflow & Azure  
 
 
@@ -387,6 +396,7 @@ This guide will walk you through deploying a full ETL pipeline on Azure using Te
 - Create Azure storage
 - Create Azure VM
 - Install Airflow on the VM
+- Install other requiremnts for the baseline script
 - Move DAGs to the Airflow folder
 - Start Airflow webserver and scheduler
 - Deploy Azure Synapse Analytics and Spark Pool
