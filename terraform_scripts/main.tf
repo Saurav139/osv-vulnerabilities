@@ -10,15 +10,3 @@ terraform {
 provider "azurerm" {
   features {}
 }
-
-module "storage" {
-  source = "./storage.tf"
-}
-
-module "vm" {
-  source = "./vm.tf"
-}
-
-module "synapse" {
-  source = "./synapse.tf"
-}
