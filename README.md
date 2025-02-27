@@ -367,13 +367,18 @@ This guide will walk you through deploying a full ETL pipeline on Azure using Te
 - Store data in Azure Blob Storage
 - Load and analyze data in Azure Synapse Analytics
 
-## Step 1: Create Terraform Folder and Files
+## Step 1: Git clone and initialize your Azure account
 
-### mkdir -p terraform
-### cd terraform
-### touch main.tf storage.tf vm.tf synapse.tf outputs.tf variables.tf
+### git clone https://github.com/Saurav139/osv-vulnerabilities.git
+### cd terraform_scripts
+### az login
+### ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""
 
- ## Step 2: Define the Terraform scripts
+
+
+
+
+ ## Step 2: Understand the Terraform scripts
 
 # **Breakdown of Terraform Scripts**
 
@@ -400,28 +405,28 @@ This guide will walk you through deploying a full ETL pipeline on Azure using Te
 - Move DAGs to the Airflow folder
 - Start Airflow webserver and scheduler
 - Deploy Azure Synapse Analytics and Spark Pool
-## Step 4: 
+## Step 4: SSH into VM
 Once the terraform is completed, SSH into VM
 ### ssh osvadmin@<vm_public_ip>
-Check if airflow is running
+Check if airflow DAG is present
 ### airflow dags list
 
-## Step 5:
+## Step 5: Make chages to the config file to point it to Azure connection string and corresponsing container
 Edit the config file 
 ### nano ~/airflow/dags/config.json
 
 ### Please add your azure storage configuration - connection string and container name
 
-## Step 6:
+## Step 6: Trigger the DAG
 
-Trigger the airflow DAG
+Trigger the airflow DAG either using the UI or the below command
 
 ### airflow dags trigger osv_data_ingestion
 
-## Step 7:
+## Step 7: Verify ingestion
 ### Check if the container is created and the data is ingested using UI 
 
-## Step 8:
+## Step 8: Verify and try out Part 2 and Part 3
 
 - Use the **Azure Synapse Studio** and run **osv-data-lake.ipynb** and  **osv-data-processing.ipynb**
 - ** In these scripts please find paths to delta table and parquet files path and edit the paths - Example path: abfss://CONTAINER-NAME@STORAGE-CONTAINER-NAME.dfs.core.windows.net/delta-table/**
